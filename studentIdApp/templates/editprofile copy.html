@@ -1,0 +1,114 @@
+{% extends 'basic.html' %}
+{%load static%}
+{% block title %}Edit Profile {% endblock %}
+{%block body%}
+
+    <div class="container mt-3">
+          <h5 class="card-title">Update the details here. All details are required</h5>
+          <form class="row g-3" action="{% url 'editprofile' role id %}" method="post"  enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="col-md-4">
+              <label for="name" class="form-label">Full Name</label>
+              <input type="text" class="form-control" id="name" name="name" value="{{eData.fullname}}" required>
+            </div>
+            <div class="col-md-4">
+              <label for="parentage" class="form-label">Father's Name</label>
+              <input type="text" class="form-control" id="parentage" name="father" value="{{eData.father}}"  required >
+            </div>
+            <div class="col-md-4">
+              <label for="mothername" class="form-label">Mother's Name</label>
+              <input type="text" class="form-control" id="mothername" name="mother" value="{{eData.mother}}" required>
+            </div>
+            <div class="col-md-4">
+              <label for="phonenumber" class="form-label">Phone number</label>
+              <input type="tel" class="form-control" id="phonenumber" name="pnumber" value="{{eData.phno}}" required>
+            </div>
+            <div class="col-md-4">
+              <label for="ephonenumber" class="form-label">Emergency contact number</label>
+              <input type="tel" class="form-control" id="ephonenumber" name="enumber" value="{{eData.ephno}}" required>
+            </div>
+            <div class="col-md-4">
+              <label for="dob" class="form-label">Date of Birth</label>
+              <input type="date" class="form-control" id="dob" name="dob" required>
+            </div>
+
+            <div class="col-md-12">
+              <label for="inputAddress" class="form-label">Address</label>
+              <input type="text" class="form-control" id="inputAddress" placeholder="" value="{{eData.address}}" name="address" required>
+            </div>
+            <div class="col-md-4">
+                <label for="photo" class="form-label">Current Photo</label>
+                <img  class="rounded" src="/media/{{eData.photo}}"  style="max-width: 200px; width: 100%; height: auto;" >
+              </div>
+
+            <div class="col-md-6">
+                
+              <label for="photo" class="form-label">Upload a photo</label>
+              <input type="file" class="form-control" id="photo"  name="photo" accept="image/*,.pdf"   required>
+            </div>
+            <div class="col-md-4">
+              <label for="inputState" class="form-label">Role</label>
+              <select id="select" class="form-select" name="role" required>
+                <option selected>Choose...</option>
+                <option value="Student">Student</option>
+                <option value="Teacher">Teacher</option>
+              </select>
+            </div>
+            <div >
+            {% with crole=eData.role %}
+            
+            {% if crole == "Student"  %}
+            
+            <div class="col-md-6">
+              <label for="dob" class="form-label">Roll Number</label>
+              <input type="number" class="form-control" id="number" value="{{ eData.rollNumber }}" name="rollNumber">
+            </div>
+            <div class="col-md-6">
+              <label for="class" class="form-label">Class</label>
+              <input type="text" class="form-control" id="class" name="standard" value="{{ eData.standard }}" >
+            </div>
+            {% else %}
+            
+            <div  id="show">
+              
+            </div>
+            {% endif %}
+            {% endwith %}
+          </div>
+            
+            <div class="col-12">
+              <button type="submit" class="btn btn-primary mb-2">Submit</button>
+            </div>
+          </form>
+       
+    </div>
+
+    <script type="text/javascript">
+var show = document.getElementById("show");
+var select = document.getElementById("select");
+var role = document.getElementById("select").value;
+console.log()
+
+select.onchange  = function(){
+  console.log(role)
+  value = select.options[select.selectedIndex].text;
+  if(value == "Student"){
+    show.innerHTML += `<div class="col-md-6" >
+              <label for="dob" class="form-label">Roll Number</label>
+              <input type="number" class="form-control" id="number" name="rollNumber">
+            </div>
+            <div class="col-md-6">
+              <label for="class" class="form-label">Class</label>
+              <input type="text" class="form-control" id="class" name="standard">
+            </div>`
+  }
+  else if(value == "Student"){
+    show.innerHTML = ""
+  }
+  else{
+    show.innerHTML = ""
+  }
+  
+}
+</script>
+{% endblock %}
